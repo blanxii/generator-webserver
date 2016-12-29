@@ -4,45 +4,41 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 
 module.exports = Generator.extend({
-  prompting: function () {
+  prompting: function() {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the phenomenal ' + chalk.red('generator-webserver') + ' generator!'
+      'Welcome to ' + chalk.red('generator-webserver') + ' generator!'
     ));
 
-    var prompts = [
-      {
-        type: 'input',
-        name: 'name',
-        message: 'Project name',
-        default: this.appname
-      },
-      {
-        type: 'confirm',
-        name: 'templateEngine',
-        message: 'Do you want to use template engine (nunjucks)?',
-        default: false
-      },
-      {
-        type: 'confirm',
-        name: 'pm2',
-        message: 'Do you want to use PM2?',
-        default: false
-      }
-    ];
+    var prompts = [{
+      type: 'input',
+      name: 'name',
+      message: 'Project name',
+      default: this.appname
+    }, {
+      type: 'confirm',
+      name: 'templateEngine',
+      message: 'Do you want to use template engine (nunjucks)?',
+      default: false
+    }, {
+      type: 'confirm',
+      name: 'pm2',
+      message: 'Do you want to use PM2?',
+      default: false
+    }];
 
-    return this.prompt(prompts).then(function (props) {
+    return this.prompt(prompts).then(function(props) {
       // To access props later use this.props.someAnswer;
       this.props = props;
     }.bind(this));
   },
 
-  writing: function () {
+  writing: function() {
     var self = this;
     self.fs.copyTpl(
       self.templatePath('base/**/*'),
       self.destinationRoot(), {
-          name: self.props.name
+        name: self.props.name
       }
     );
 
@@ -50,32 +46,35 @@ module.exports = Generator.extend({
     hiddenFiles.map(function(hiddenFile) {
       self.fs.copy(
         self.templatePath('hidden/' + hiddenFile),
-        self.destinationPath('.' + hiddenFile),
-        { globOptions: { dot: true } }
+        self.destinationPath('.' + hiddenFile), {
+          globOptions: {
+            dot: true
+          }
+        }
       );
     });
 
-    if(self.props.pm2 === true ) {
+    if (self.props.pm2 === true) {
       self.fs.copyTpl(
         self.templatePath('config/pm2/**/*'),
         self.destinationPath('config/pm2'), {
-            name: self.props.name
+          name: self.props.name
         }
       );
     }
     this.log(self.props.templateEngine);
-    if(self.props.templateEngine === true ) {
-      this.npmInstall(['express-nunjucks', 'nunjucks'],  { 'save': true });
+    if (self.props.templateEngine === true) {
+      this.npmInstall(['express-nunjucks', 'nunjucks'], {
+        'save': true
+      });
       self.fs.copyTpl(
         self.templatePath('config/nunjucks-index.js'),
         self.destinationPath('server/index.js')
       );
 
-      self.fs.copyTpl(
+      self.fs.copy(
         self.templatePath('client/**/*'),
-        self.destinationPath('client'), {
-            name: self.props.name
-        }
+        self.destinationPath('client')
       );
 
     } else {
@@ -86,7 +85,13 @@ module.exports = Generator.extend({
     }
   },
 
-  install: function () {
-    this.installDependencies();
+  install: function() {
+    var self = this;
+    self.installDependencies({
+      bower: false,
+      callback: function() {
+        self.log('\n\nRun' + chalk.red(' npm start ') + 'to start coding!\n');
+      }
+    });
   }
 });

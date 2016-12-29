@@ -1,6 +1,6 @@
 {
   "name": "generator-webserver",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Default npm webserver application",
   "homepage": "",
   "author": {
@@ -13,8 +13,11 @@
   ],
   "main": "generators/index.js",
   "keywords": [
-    "",
-    "yeoman-generator"
+    "yeoman-generator",
+    "webserver",
+    "express",
+    "boilerplate",
+    "web"
   ],
   "dependencies": {
     "yeoman-generator": "^1.0.0",
