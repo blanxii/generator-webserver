@@ -8,7 +8,7 @@
 
 - [NodeJS](https://nodejs.org/en/)
 - [Yeoman](http://yeoman.io)
-- [Generator-Starterkit](https://github.com/carloscuesta/generator-starterkit)
+- [Generator-Webserver](https://github.com/blanxii/generator-webserver)
 
 ```
 npm install -g yo
