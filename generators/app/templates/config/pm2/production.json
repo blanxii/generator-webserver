@@ -1,0 +1,14 @@
+{
+  "apps" : [{
+    "name"        : "<%= name %>",
+    "script"      : "index.js",
+    "instances"   : 0,
+    "exec_mode"   : "cluster",
+    "min_uptime"  : "5000",
+    "node_args"   : "--nouse-idle-notification",
+    "env": {
+      "PORT"                          : "80",
+      "NODE_ENV"                      : "production"
+    }
+  }]
+}
