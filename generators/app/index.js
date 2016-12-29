@@ -49,43 +49,26 @@ module.exports = Generator.extend({
   writing: function() {
     var self = this;
     var dependencies = [];
+    var copyPaths = [];
 
-    self.fs.copyTpl(
-      self.templatePath('base/**/*'),
-      self.destinationRoot(), {
-        name: self.props.name,
-        options: {
-          database: self.props.database
-        }
-      }
-    );
+    copyPaths.push({
+      origin: 'base/**/*',
+      destination: '.'
+    });
 
     var hiddenFiles = ['editorconfig', 'env', 'gitignore', 'jshintrc'];
     hiddenFiles.map(function(hiddenFile) {
-      self.fs.copyTpl(
-        self.templatePath('hidden/' + hiddenFile),
-        self.destinationPath('.' + hiddenFile), {
-          globOptions: {
-            dot: true
-          },
-          name: self.props.name,
-          options: {
-            database: self.props.database
-          }
-        }
-      );
+      copyPaths.push({
+        origin: 'hidden/' + hiddenFile,
+        destination: '.' + hiddenFile
+      });
     });
 
     if (self.props.pm2 === true) {
-      self.fs.copyTpl(
-        self.templatePath('config/pm2/**/*'),
-        self.destinationPath('config/pm2'), {
-          name: self.props.name,
-          options: {
-            database: self.props.database
-          }
-        }
-      );
+      copyPaths.push({
+        origin: 'config/pm2/**/*',
+        destination: 'config/pm2'
+      });
     }
     if (self.props.database === 'mongodb') {
       dependencies.push('bluebird', 'mongoose');
@@ -95,24 +78,42 @@ module.exports = Generator.extend({
 
     if (self.props.templateEngine === true) {
       dependencies.push('express-nunjucks', 'nunjucks');
+      copyPaths.push({
+        origin: 'config/nunjucks-index.js',
+        destination: 'server/index.js'
+      });
 
-      self.fs.copyTpl(
-        self.templatePath('config/nunjucks-index.js'),
-        self.destinationPath('server/index.js')
-      );
-
-      self.fs.copy(
-        self.templatePath('client/**/*'),
-        self.destinationPath('client')
-      );
+      copyPaths.push({
+        origin: 'client/**/*',
+        destination: 'client'
+      });
 
     } else {
-      self.fs.copyTpl(
-        self.templatePath('config/default-index.js'),
-        self.destinationPath('server/index.js')
-      );
+      copyPaths.push({
+        origin: 'config/default-index.js',
+        destination: 'server/index.js'
+      });
     }
 
+    //Move files
+    copyPaths.forEach(function(copyPath) {
+      self.fs.copyTpl(
+        self.templatePath(copyPath.origin),
+        self.destinationPath(copyPath.destination), {
+          globOptions: {
+            dot: true
+          },
+          name: self.props.name,
+          options: {
+            database: self.props.database,
+            templateEngine: self.props.templateEngine
+          }
+        }
+      );
+    });
+
+
+    //Install packages
     this.npmInstall(dependencies, {
       'save': true
     });
