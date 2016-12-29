@@ -1,2 +1,11 @@
 NODE_ENV=development
 PORT=3000
+<% if(options.database == 'mysql' || options.database == 'postgresql' || options.database == 'sqlite'){ %>
+SQL_DATABASE=<%= name %>
+SQL_USER=root
+SQL_PASSWORD=12345
+SQL_HOST=localhost
+<% } %>
+<% if(options.database == 'mongodb'){ %>
+MONGO_URI=mongodb://localhost:27017/<%= name %>
+<% } %>

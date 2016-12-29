@@ -5,6 +5,7 @@ var yosay = require('yosay');
 
 module.exports = Generator.extend({
   prompting: function() {
+
     // Have Yeoman greet the user.
     this.log(yosay(
       'Welcome to ' + chalk.red('generator-webserver') + ' generator!'
@@ -25,6 +26,18 @@ module.exports = Generator.extend({
       name: 'pm2',
       message: 'Do you want to use PM2?',
       default: false
+    },
+    {
+      type: 'list',
+      name: 'database',
+      message: 'Which database do you want to use?',
+      choices: [{
+         name: 'mysql | postgresql | sqlite',
+         value: 'mysql'
+     }, {
+         name: 'mongodb',
+         value: 'mongodb'
+     }]
     }];
 
     return this.prompt(prompts).then(function(props) {
@@ -35,20 +48,29 @@ module.exports = Generator.extend({
 
   writing: function() {
     var self = this;
+    var dependencies = [];
+
     self.fs.copyTpl(
       self.templatePath('base/**/*'),
       self.destinationRoot(), {
-        name: self.props.name
+        name: self.props.name,
+        options: {
+          database: self.props.database
+        }
       }
     );
 
     var hiddenFiles = ['editorconfig', 'env', 'gitignore', 'jshintrc'];
     hiddenFiles.map(function(hiddenFile) {
-      self.fs.copy(
+      self.fs.copyTpl(
         self.templatePath('hidden/' + hiddenFile),
         self.destinationPath('.' + hiddenFile), {
           globOptions: {
             dot: true
+          },
+          name: self.props.name,
+          options: {
+            database: self.props.database
           }
         }
       );
@@ -58,15 +80,22 @@ module.exports = Generator.extend({
       self.fs.copyTpl(
         self.templatePath('config/pm2/**/*'),
         self.destinationPath('config/pm2'), {
-          name: self.props.name
+          name: self.props.name,
+          options: {
+            database: self.props.database
+          }
         }
       );
     }
-    this.log(self.props.templateEngine);
+    if (self.props.database === 'mongodb') {
+      dependencies.push('bluebird', 'mongoose');
+    } else {
+      dependencies.push('sequelize', 'mysql');
+    }
+
     if (self.props.templateEngine === true) {
-      this.npmInstall(['express-nunjucks', 'nunjucks'], {
-        'save': true
-      });
+      dependencies.push('express-nunjucks', 'nunjucks');
+
       self.fs.copyTpl(
         self.templatePath('config/nunjucks-index.js'),
         self.destinationPath('server/index.js')
@@ -83,9 +112,14 @@ module.exports = Generator.extend({
         self.destinationPath('server/index.js')
       );
     }
+
+    this.npmInstall(dependencies, {
+      'save': true
+    });
   },
 
   install: function() {
+
     var self = this;
     self.installDependencies({
       bower: false,
