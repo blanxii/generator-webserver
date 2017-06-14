@@ -12,26 +12,26 @@
   },
   "babel": {
     "only": [
-      "server/**"
+      "server/**",
     ],
     "presets": [
-      "es2015-node4"
-    ],
-    "plugins": [
-      "transform-es2015-arrow-functions"
+      "env"
     ]
   },
   "dependencies": {
-    "babel-plugin-transform-es2015-arrow-functions": "^6.8.0",
-    "babel-preset-es2015-node4": "^2.1.0",
+    "babel-preset-env": "^1.5.2",
     "babel-register": "^6.11.6",
+    "bluebird": "^3.5.0",
     "compression": "^1.6.2",
     "cors": "^2.7.1",
-    "dotenv": "^2.0.0",
+    "dotenv": "^4.0.0",
     "express": "^4.14.0",
+    "express-nunjucks": "^2.2.3",
     "express-validation": "^1.0.0",
-    "simple-di": "^1.1.1",
-    "joi": "^9.0.4"
+    "joi": "^10.5.2",
+    "mongoose": "^4.10.6",
+    "nunjucks": "^3.0.1",
+    "simple-di": "^1.1.1"
   },
   "author": "",
   "license": "ISC"
