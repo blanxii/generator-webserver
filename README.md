@@ -27,3 +27,6 @@ cd project
 yo webserver
 npm start
 ```
+
+## License
+This project is released under the [WTFPL LICENSE](http://www.wtfpl.net/ "WTFPL LICENSE").
