@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/yeoman/media/master/optimized/yeoman-masthead.png)
 
-#💂 Yeoman generator to create NodeJS web server scaffolding using express-js
+# 💂 Yeoman generator to create NodeJS web server scaffolding using express-js
 
 ## Requirements
 
