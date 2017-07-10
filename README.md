@@ -39,7 +39,7 @@ Inside server we can find:
 `middleware.js` Here we can set up our default middlewares like user auth, or whatever.
 `container.js` Register everthing inside **providers** folder using [simple-di](https://www.npmjs.com/package/simple-di).
 
-Use providers to inject models (for instance) to our controllers. And avoid bad practises (direct imports inside controllers).
+Use providers to inject models (for instance) to our controllers. And avoid bad practices (direct imports inside controllers).
 
 ## License
 This project is released under the [WTFPL LICENSE](http://www.wtfpl.net/ "WTFPL LICENSE").
