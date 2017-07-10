@@ -33,7 +33,7 @@ Webserver options are:
 - **PM2** Recommended `Production Process Manager for Node.js`
 - **Database driver** We currently support mysql (build with [sequelize](http://docs.sequelizejs.com/)) | mongodb (build with [mongoose](http://mongoosejs.com/))
 
-### Scaffolding details
+## Scaffolding details
 Inside server we can find:
 
 `middleware.js` Here we can set up our default middlewares like user auth, or whatever.
