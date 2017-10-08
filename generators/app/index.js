@@ -78,21 +78,12 @@ module.exports = Generator.extend({
 
     if (self.props.templateEngine === true) {
       dependencies.push('express-nunjucks', 'nunjucks');
-      copyPaths.push({
-        origin: 'config/nunjucks-index.js',
-        destination: 'server/index.js'
-      });
 
       copyPaths.push({
         origin: 'client/**/*',
         destination: 'client'
       });
 
-    } else {
-      copyPaths.push({
-        origin: 'config/default-index.js',
-        destination: 'server/index.js'
-      });
     }
 
     //Move files
