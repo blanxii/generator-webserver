@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "develop": "nodemon index.js",
+    "develop": "node-dev --respawn --no-notify --no-deps --inspect=0.0.0.0:5858 index.js",
     "deploy": "git pull origin master && npm i && npm run server",
     "server": "pm2 startOrReload config/pm2/production.json",
     "logs": "pm2 logs"
@@ -19,21 +19,24 @@
     ]
   },
   "dependencies": {
-    "babel-preset-env": "^1.5.2",
-    "babel-register": "^6.11.6",
-    "bluebird": "^3.5.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "bluebird": "^3.5.1",
     "blister": "^1.1.0",
     "require-dir": "^0.3.2",
-    "compression": "^1.6.2",
-    "cors": "^2.7.1",
+    "compression": "^1.7.1",
+    "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "express": "^4.14.0",
+    "express": "^4.16.2",
     "express-nunjucks": "^2.2.3",
-    "express-validation": "^1.0.0",
-    "joi": "^10.5.2",
-    "mongoose": "^4.10.6",
-    "nunjucks": "^3.0.1"
+    "express-validation": "^1.0.2",
+    "joi": "^13.0.0",
+    "mongoose": "^4.12.3",
+    "nunjucks": "^3.0.1",
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "node-dev": "^3.1.3"
+  }
 }
