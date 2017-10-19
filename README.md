@@ -37,7 +37,7 @@ Webserver options are:
 Inside server we can find:
 
 `middleware.js` Here we can set up our default middlewares like user auth, or whatever.
-`container.js` Register everthing inside **providers** folder using [simple-di](https://www.npmjs.com/package/simple-di).
+`container.js` Register everthing inside **providers** folder using [blister](https://www.npmjs.com/package/blister).
 
 Use providers to inject models (for instance) to our controllers. And avoid bad practices (direct imports inside controllers).
 

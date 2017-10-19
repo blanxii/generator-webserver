@@ -1,15 +1,17 @@
-import container from 'simple-di';
+import UserModel from '../models/UserModel';
 
-const UserModel = require('../models/UserModel');
-<% if(options.database == 'mysql' || options.database == 'postgresql' || options.database == 'sqlite'){ %>
-container.register('userModel', () => {
-  return new UserModel({ dbConnection: container.get('SQLConnection') });
-});
-<% } %>
-<% if(options.database == 'mongodb'){ %>
-container.get('MongoConnection');
+export default function modelProvider(container) {
+  <% if(['mysql', 'postgresql', 'sqlite'].includes(options.database)){ %>
+  container.service('userModel', (c) => {
+    return new UserModel({
+      dbConnection: c.get('sqlConnection')
+    });
+  });
+  <% } %>
 
-container.register('userModel', () => {
-  return UserModel;
-});
-<% } %>
+  <% if(options.database == 'mongodb'){ %>
+  container.service('userModel', () => {
+    return UserModel;
+  });
+  <% } %>
+}

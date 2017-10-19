@@ -1,6 +1,7 @@
-import container from 'simple-di';
-import indexController from '../controllers/IndexController';
+import IndexController from '../controllers/IndexController';
 
-container.register('indexController', () => {
-  return new indexController();
-});
+export default function controllerProvider(container) {
+  container.service('indexController', () => {
+    return new IndexController();
+  });
+}
