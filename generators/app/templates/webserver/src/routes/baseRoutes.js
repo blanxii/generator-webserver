@@ -1,5 +1,6 @@
-import container from '../container';
 import express from 'express';
+import container from '../container';
+
 const router = express.Router();
 
 const indexController = container.get('indexController');
